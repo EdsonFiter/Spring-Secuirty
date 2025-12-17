@@ -1,5 +1,6 @@
-package com.devedson.security.user;
+package com.devedson.security.domain.user;
 
+import com.devedson.security.domain.token.Token;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,6 +30,8 @@ public class User implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
+    @OneToMany(mappedBy = "user")
+    private List<Token> token;
 
     @Override
     public @Nullable String getPassword() {

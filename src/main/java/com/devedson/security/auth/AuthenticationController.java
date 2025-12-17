@@ -3,6 +3,7 @@ package com.devedson.security.auth;
 import com.devedson.security.dto.AuthenticationRequest;
 import com.devedson.security.dto.AuthenticationResponse;
 import com.devedson.security.dto.RegisterRequest;
+import com.devedson.security.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

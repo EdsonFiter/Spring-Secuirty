@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/test-controller")
-public class SecuredEndPointController {
+@RequestMapping("/api/v1/demo")
+public class SecuredEndPoint {
 
     @GetMapping
-    public ResponseEntity<String> seyHi(){
-        return new ResponseEntity<>("Hi, secured endpoint", HttpStatus.OK);
+    public ResponseEntity<String> seyHello(){
+        return new ResponseEntity<>("Hello secured endpoint", HttpStatus.OK);
     }
 }

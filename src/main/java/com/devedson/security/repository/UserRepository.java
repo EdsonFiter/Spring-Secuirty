@@ -1,5 +1,6 @@
-package com.devedson.security.user;
+package com.devedson.security.repository;
 
+import com.devedson.security.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
