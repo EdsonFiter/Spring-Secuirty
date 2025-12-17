@@ -10,14 +10,25 @@ import com.devedson.security.domain.user.Role;
 import com.devedson.security.domain.user.User;
 import com.devedson.security.repository.TokenRepository;
 import com.devedson.security.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -34,11 +45,13 @@ public class AuthService {
                 .role(Role.USER)
                 .build();
         var saveUser = userRepository.save(user);
-        var jwtToken = jwtService.generateToken(user);
-        saveUserToken(jwtToken, saveUser);
+        var jwtAccessToken = jwtService.generateAccessToken(user);
+        var jwtRefreshToken = jwtService.generateRefreshToken(user);
+        saveUserToken(jwtAccessToken, saveUser);
 
         return AuthenticationResponse.builder()
-                .token(jwtToken)
+                .accessToken(jwtAccessToken)
+                .refreshToken(jwtRefreshToken)
                 .build();
     }
 
@@ -51,12 +64,14 @@ public class AuthService {
         );
         var user = userRepository.findByEmail(authenticationRequest.getEmail())
                 .orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
+        var jwtAccessToken = jwtService.generateAccessToken(user);
+        var jwtRefreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
-        saveUserToken(jwtToken, user);
+        saveUserToken(jwtAccessToken, user);
 
         return AuthenticationResponse.builder()
-                .token(jwtToken)
+                .accessToken(jwtAccessToken)
+                .refreshToken(jwtRefreshToken)
                 .build();
     }
 
@@ -82,4 +97,29 @@ public class AuthService {
         tokenRepository.save(token);
     }
 
+    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        final String jwtRefreshToken;
+        final String userEmail;
+        if(authHeader == null || !authHeader.startsWith("Bearer ")){
+            return;
+        }
+        jwtRefreshToken = authHeader.substring(7);
+        userEmail = jwtService.extractUsername(jwtRefreshToken);
+        if(userEmail != null){
+            User user = userRepository.findByEmail(userEmail)
+                    .orElseThrow();
+            if(jwtService.isTokenValid(jwtRefreshToken, user)){
+               var jwtAccessToken = jwtService.generateAccessToken(user);
+               revokeAllUserTokens(user);
+               saveUserToken(jwtAccessToken, user);
+               var authResponse = AuthenticationResponse.builder()
+                       .accessToken(jwtAccessToken)
+                       .refreshToken(jwtRefreshToken)
+                       .build();
+               log.info("Edson Mário");
+               new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
+            }
+        }
+    }
 }

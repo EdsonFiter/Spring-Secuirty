@@ -21,3 +21,11 @@ logging:
     org:
       hibernate:
         SQL: DEBUG
+
+
+application:
+  security:
+    jwt:
+      secret-key: 34b75395fabdc2931aa35cacba5cda8f50d0bd19b9fa9749ef9ab0459979db72
+      expiration: 86400000
+      refresh-expiration: 604800000
