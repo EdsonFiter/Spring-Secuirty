@@ -1,4 +1,4 @@
-package com.devedson.security.auth;
+package com.devedson.security.controller;
 
 import com.devedson.security.dto.AuthenticationRequest;
 import com.devedson.security.dto.AuthenticationResponse;

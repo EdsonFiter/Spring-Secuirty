@@ -1,4 +1,4 @@
-package com.devedson.security.auth;
+package com.devedson.security.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

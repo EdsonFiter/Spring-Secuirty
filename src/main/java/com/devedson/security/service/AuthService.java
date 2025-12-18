@@ -1,6 +1,5 @@
 package com.devedson.security.service;
 
-import com.devedson.security.auth.JwtService;
 import com.devedson.security.domain.token.Token;
 import com.devedson.security.domain.token.TokenType;
 import com.devedson.security.dto.AuthenticationRequest;
@@ -17,10 +16,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
 import tools.jackson.databind.ObjectMapper;
 
@@ -42,7 +38,7 @@ public class AuthService {
                 .lastname(registerRequest.getLastname())
                 .email(registerRequest.getEmail())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
-                .role(Role.USER)
+                .role(registerRequest.getRole())
                 .build();
         var saveUser = userRepository.save(user);
         var jwtAccessToken = jwtService.generateAccessToken(user);

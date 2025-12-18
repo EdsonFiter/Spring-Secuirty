@@ -1,4 +1,4 @@
-package com.devedson.security.auth;
+package com.devedson.security.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

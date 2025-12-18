@@ -1,6 +1,6 @@
 package com.devedson.security.config;
 
-import com.devedson.security.auth.JwtService;
+import com.devedson.security.service.JwtService;
 import com.devedson.security.repository.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
