@@ -12,21 +12,21 @@ public class AdminController {
 
     @GetMapping
     public ResponseEntity<String> getMethod(){
-        return new ResponseEntity<>("GET : Admin", HttpStatus.OK);
+        return new ResponseEntity<>("GET::ADMIN", HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<String> postMethod(){
-        return new ResponseEntity<>("PUT : Admin", HttpStatus.CREATED);
+        return new ResponseEntity<>("POST::ADMIN", HttpStatus.CREATED);
     }
 
     @PutMapping
     public ResponseEntity<String> putMethod(){
-        return new ResponseEntity<>("GET : Admin",HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("PUT:ADMIN",HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping
     public ResponseEntity<String> deleteMethod(){
-        return new ResponseEntity<>("DELETE : Admin",HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("DELETE::ADMIN",HttpStatus.NO_CONTENT);
     }
 }

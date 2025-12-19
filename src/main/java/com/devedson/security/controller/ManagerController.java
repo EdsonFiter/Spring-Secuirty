@@ -8,25 +8,35 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/manager")
+@PreAuthorize("hasRole('MANAGER')")
 public class ManagerController {
 
+
     @GetMapping
+    @PreAuthorize("hasAuthority('manager:read')")
     public ResponseEntity<String> getMethod(){
-        return new ResponseEntity<>("GET : Manager", HttpStatus.OK);
+        return new ResponseEntity<>("GET::MANAGER", HttpStatus.OK);
     }
+
 
     @PostMapping
+    @PreAuthorize("hasAuthority('manager:create')")
     public ResponseEntity<String> postMethod(){
-        return new ResponseEntity<>("PUT : Manager", HttpStatus.CREATED);
+        return new ResponseEntity<>("PUT::MANAGER", HttpStatus.CREATED);
     }
+
 
     @PutMapping
+    @PreAuthorize("hasAuthority('manager:update')")
     public ResponseEntity<String> putMethod(){
-        return new ResponseEntity<>("GET : Manager",HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("PUT::MANAGER",HttpStatus.NO_CONTENT);
     }
 
+
+
     @DeleteMapping
+    @PreAuthorize("hasAuthority('manager:delete')")
     public ResponseEntity<String> deleteMethod(){
-        return new ResponseEntity<>("DELETE : Manager",HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("DELETE::MANAGER",HttpStatus.NO_CONTENT);
     }
 }

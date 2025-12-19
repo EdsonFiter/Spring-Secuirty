@@ -60,11 +60,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        //Desta maneira a permissão é com Authority
-        //return List.of(new SimpleGrantedAuthority(role.name()))
-
-        // Desta maneira a permissão é com Role
-        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
+        return role.getAuthorities();
     }
 
     @Override
